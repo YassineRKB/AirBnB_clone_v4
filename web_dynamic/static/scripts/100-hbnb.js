@@ -44,7 +44,7 @@ $(document).ready(function () {
 			amenity_list_names.splice(index_am, 1)
 			amenity_list_ids.splice(index_am, 1)
 		}
-		h4_setter(amenity_list_names_list_names, 'amenities')
+		h4_setter(amenity_list_names, 'amenities')
 	})
 
 	let state_city_list_names = [];
