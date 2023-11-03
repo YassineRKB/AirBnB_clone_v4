@@ -30,30 +30,29 @@ $(document).ready(function() {
       for (let i = 0; i < data.length; i++) {
         let place = data[i];
         $('.places').append(`
-        <article>
-          <h2>${place.name}</h2>
-          <div class="price_by_night">
-            <p>$${place.price_by_night}</p>
-          </div>
-          <div class="information">
-            <div class="max_guest">
-              <div class="guest_image"></div>
-              <p>${place.max_guest}</p>
+          <article>
+            <div class="title_box">
+                <h2>${place.name}</h2>
+                <div class="price_by_night">
+                  <p>$${place.price_by_night}</p>
+                </div>
             </div>
-            <div class="number_rooms">
-              <div class="bed_image"></div>
-              <p>${place.number_rooms}</p>
+            <div class="information">
+              <div class="max_guest">
+                ${place.max_guest} Guest(s)
+              </div>
+              <div class="number_rooms">
+                ${place.number_rooms} Bedroom(s)
+              </div>
+              <div class="number_bathrooms">
+                ${place.number_rooms} Bathroom(s)
+              </div>
             </div>
-            <div class="number_bathrooms">
-              <div class="bath_image"></div>
-              <p>${place.number_bathrooms}</p>
+            <div class="description">
+              <p>${place.description}</p>
             </div>
-          </div>
-          <div class="description">
-            <p>${place.description}</p>
-          </div>
-        </article>
-      `);
+          </article>
+        `);
       }
     }
   });
