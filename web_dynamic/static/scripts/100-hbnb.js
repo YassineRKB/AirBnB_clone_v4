@@ -11,7 +11,7 @@ $(document).ready(function() {
   let cities_list = [];
   let locations_list = [];
 
-  $(document).on('change', ".amenities > .popover > li > input[type='checkbox']", function () {
+  $(document).on('change', ".amenities > .popover > ul > li > input[type='checkbox']", function () {
       if (this.checked) {
           amenity_list[$(this).data('id')] = $(this).data('name');
       } else {
@@ -24,7 +24,7 @@ $(document).ready(function() {
           $('div.amenities > h4').html('&nbsp;');
       }
   });
-  $(document).on('change', ".locations > .popover > li > input[type='checkbox']", function () {
+  $(document).on('change', ".locations > .popover > ul > li > input[type='checkbox']", function () {
       if (this.checked) {
           states_list[$(this).data('id')] = $(this).data('name');
           locations_list[$(this).data('id')] = $(this).data('name');
@@ -39,7 +39,7 @@ $(document).ready(function() {
           $('div.locations > h4').html('&nbsp;');
       }
   });
-  $(document).on('change', ".locations > .popover > li > ul > li > input[type='checkbox']", function () {
+  $(document).on('change', ".locations > .popover > ul > li > ul > input[type='checkbox']", function () {
       if (this.checked) {
           cities_list[$(this).data('id')] = $(this).data('name');
           locations_list[$(this).data('id')] = $(this).data('name');
