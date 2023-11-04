@@ -11,7 +11,7 @@ $(document).ready(function() {
   let cities_list = [];
   let locations_list = [];
 
-  $(document).on('change', ".amenities > .popover > li > input[type='checkbox']", function () {
+  $(document).on('change', ".amenities > .popover > ul > li > input[type='checkbox']", function () {
       if (this.checked) {
           amenity_list[$(this).data('id')] = $(this).data('name');
       } else {
