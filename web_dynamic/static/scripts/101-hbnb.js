@@ -173,12 +173,18 @@ $(document).ready(function() {
           $reviews.find('h2').html(`${data.length} Reviews<span class="article_subtitle_span toggle-review">Hide</span>`);
           const $ul = $reviews.find('ul');
           data.forEach((r) => {
+            const createdAt = new Date(r.created_at);
+            const formattedDate = createdAt.toLocaleString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
             $.getJSON(
               `http://localhost:5001/api/v1/users/${r.user_id}`,
               (u) => {
                 $ul.append(`
                   <li>
-                    <h3>From ${u.first_name} ${u.last_name} on ${r.created_at}</h3>
+                    <h4>From ${u.first_name} ${u.last_name} on ${formattedDate}</h4>
                     <p>${r.text}</p>
                   </li>`);
               },

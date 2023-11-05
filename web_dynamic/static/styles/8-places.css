@@ -14,6 +14,11 @@
     }
 }
 
+.reviews ul {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
 .placesh1 h1 {
     width: 100%;
     margin-right: 400px;
