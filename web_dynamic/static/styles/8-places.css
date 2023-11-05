@@ -34,7 +34,7 @@
 }
 .places h2 {
     font-size: 30px;
-    text-align: center;
+    text-align: left;
     margin-top: 0;
 }
 .title_box {
@@ -97,5 +97,24 @@
 }
 
 .user {
-  margin-bottom: 1.5%;
+    margin-bottom: 1.5%;
+}
+
+.article_subtitle {
+  font-size: 16px !important;
+  text-align: left;
+  width: 100%;
+  border-bottom: 1px solid #DDDDDD;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 10px;
+}
+.article_subtitle_span {
+  font-size: 16px;
+  color:#bebebe;
+  padding: 0px;
+  margin: 0px;
+  float: right;
+  text-align: right;
+  padding-bottom: 10px;
 }

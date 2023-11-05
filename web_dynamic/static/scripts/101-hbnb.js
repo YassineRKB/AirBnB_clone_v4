@@ -1,16 +1,19 @@
 $(document).ready(function() {
-    $.get("http://localhost:5001/api/v1/status/", function(data, textStatus) {
-        if (data.status === "OK")
-            $("#api_status").addClass("available")
-        else
-            $("#api_status").removeClass("available")
-    })
-
+  //// vars ////
   let amenity_list = [];
   let states_list = [];
   let cities_list = [];
   let locations_list = [];
 
+  //// event handlers ////
+  // api status
+  $.get("http://localhost:5001/api/v1/status/", function(data, textStatus) {
+      if (data.status === "OK")
+          $("#api_status").addClass("available")
+      else
+          $("#api_status").removeClass("available")
+  })
+  // evenet listner for amenities checkboxes
   $(document).on('change', ".amenities > .popover > ul > li > input[type='checkbox']", function () {
       if (this.checked) {
           amenity_list[$(this).data('id')] = $(this).data('name');
@@ -24,6 +27,7 @@ $(document).ready(function() {
           $('div.amenities > h4').html('&nbsp;');
       }
   });
+  // evenet listner for locations checkboxes: states
   $(document).on('change', ".locations > .popover > ul > li > h2 > input[type='checkbox']", function () {
       if (this.checked) {
           states_list[$(this).data('id')] = $(this).data('name');
@@ -39,6 +43,7 @@ $(document).ready(function() {
           $('div.locations > h4').html('&nbsp;');
       }
   });
+  // evenet listner for locations checkboxes: cities
   $(document).on('change', ".locations > .popover > ul > li > ul > li > input[type='checkbox']", function () {
       if (this.checked) {
           cities_list[$(this).data('id')] = $(this).data('name');
@@ -54,20 +59,14 @@ $(document).ready(function() {
           $('div.locations > h4').html('&nbsp;');
       }
   });
+  // evenet listner for show/hide reviews span button
+  $(document).on('click', '.toggle-review', function () {
+    const aplaceId = $(this).closest('.reviews').data('place');
+    fetchReviews(aplaceId);
+  });
 
- /*  $("INPUT").change(function() {
-    if ($(this).is(":checked"))
-      amenity_list.push($(this).attr("data-name"))
-    else {
-        let index = amenity_list.indexOf($(this).attr("data-name"));
-        amenity_list.splice(index, 1)
-    }
-    let formatted = amenity_list.join(", ");
-    if (amenity_list.length > 0)
-        $(".amenities h4").text(formatted)
-    else
-        $(".amenities h4").html("&nbsp;")
-  }) */
+  //// ajax requests and functions ////
+  // loading default content
   $.ajax({
     type: 'POST',
     url: 'http://localhost:5001/api/v1/places_search/',
@@ -99,11 +98,19 @@ $(document).ready(function() {
             <div class="description">
                 <p>${place.description}</p>
             </div>
+            <div class="reviews" data-place="${place.id}">
+                <h2 class="article_subtitle">
+                  Reviews
+                  <span class="article_subtitle_span toggle-review">Show</span>
+                </h2>
+                <ul></ul>
+            </div>
             </article>
         `);
       }
     }
   });
+  // loading filtered content
   $('.filters > button').click(function () {
     $('.places > article').remove();
     $.ajax({
@@ -141,10 +148,51 @@ $(document).ready(function() {
             <div class="description">
               <p>${place.description}</p>
             </div>
+            <div class="reviews" data-place="${place.id}">
+                <h2 class="article_subtitle">
+                  Reviews
+                  <span class="article_subtitle_span toggle-review">Show</span>
+                </h2>
+                <ul></ul>
+            </div>
           </article>
         `);
         }
       }
     });
   });
+  // function to fetch reviews, triggered by event handler
+  function fetchReviews(placeId) {
+    const $reviews = $(`.reviews[data-place="${placeId}"]`);
+    const $toggleReview = $reviews.find('.toggle-review');
+
+    if ($toggleReview.text() === 'Show') {
+      $.getJSON(
+        `http://localhost:5001/api/v1/places/${placeId}/reviews`,
+        (data) => {
+          $reviews.find('h2').html(`${data.length} Reviews<span class="article_subtitle_span toggle-review">Hide</span>`);
+          const $ul = $reviews.find('ul');
+          data.forEach((r) => {
+            $.getJSON(
+              `http://localhost:5001/api/v1/users/${r.user_id}`,
+              (u) => {
+                $ul.append(`
+                  <li>
+                    <h3>From ${u.first_name} ${u.last_name} on ${r.created_at}</h3>
+                    <p>${r.text}</p>
+                  </li>`);
+              },
+              'json'
+            );
+          });
+        },
+        'json'
+      );
+    } else {
+      $reviews.find('h2').html('Reviews<span class="article_subtitle_span toggle-review">Show</span>');
+      $reviews.find('ul').empty();
+    }
+  }
+  
 });
+
