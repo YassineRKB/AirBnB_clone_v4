@@ -7,7 +7,20 @@ $(document).ready(function() {
 	})
 
   let amenity_list = [];
-  $("INPUT").change(function() {
+  $(document).on('change', ".amenities > .popover > ul > li > input[type='checkbox']", function () {
+    if (this.checked) {
+        amenity_list[$(this).data('id')] = $(this).data('name');
+    } else {
+        delete amenity_list[$(this).data('id')];
+    }
+    let list = Object.values(amenity_list);
+    if (list.length > 0) {
+        $('div.amenities > h4').text(Object.values(amenity_list).join(', '));
+    } else {
+        $('div.amenities > h4').html('&nbsp;');
+    }
+});
+  /* $("INPUT").change(function() {
     if ($(this).is(":checked"))
       amenity_list.push($(this).attr("data-name"))
 		else {
@@ -19,7 +32,7 @@ $(document).ready(function() {
 			$(".amenities h4").text(formatted)
 		else
 			$(".amenities h4").html("&nbsp;")
-  })
+  }) */
   $.ajax({
     type: 'POST',
     url: 'http://0.0.0.0:5001/api/v1/places_search',
